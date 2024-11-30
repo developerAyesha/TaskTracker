@@ -1,9 +1,11 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { DeleteTask } from '../TaskTrackerSlice';
+import { useSelector ,useDispatch} from 'react-redux';
 
 const TaskList = () => {
   const tasks = useSelector((state) => state.taskTracker.Tasks);
   console.log("tasks.......", tasks);
+  const dispatch =useDispatch();
 
   return (
     <div className="container py-4">
@@ -21,7 +23,7 @@ const TaskList = () => {
           
             <div>
               
-                <i className="bi bi-trash-fill " style={{color:'red'}}></i> 
+                <i className="bi bi-trash-fill " style={{color:'red'}} onClick={()=>{dispatch(DeleteTask(task.id))}}></i> 
             
             </div>
           </div>
