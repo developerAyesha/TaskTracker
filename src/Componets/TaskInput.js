@@ -1,26 +1,30 @@
-import React,{useState} from 'react'
+import React from 'react'
 import { useForm } from "react-hook-form"
-
+import { useDispatch } from 'react-redux'
+import { AddTask } from '../TaskTrackerSlice'
 const TaskInput = () => {
-   const[tasks,setTasks]=useState([])
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
-    watch,
+    reset,
+   
     formState: { errors },
   } = useForm()
-  const AddTask =(data)=>{
-    console.log("data",data);
-    setTasks([...tasks,{"name":data.TaskName}]);
-    console.log(tasks);
+  const TaskAdded =(data)=>{
+    console.log("data",data.TaskName);
+     dispatch(AddTask(data.TaskName))
+     reset();
+   
   }
   return (
-    <div>
-   <form className='d-flex justify-content-center align-items-center p-5'   onSubmit={handleSubmit(AddTask) }>
-    <input  className=' border-2 rounded' {...register('TaskName',{required:{value:true,message:"Task name is required"}})} />
-    <button type="submit" className="btn btn-primary mx-3 ">Add Task</button>
+    
+   <form className='d-flex justify-content-center align-items-center py-4'   onSubmit={handleSubmit(TaskAdded) }>
+    <input  placeholder='Enter Task Name' className='border rounded  border-dark border-4 w-50 py-1 px-2' {...register('TaskName',{required:{value:true,message:"Task name is required"}})} />
+    {errors.TaskName && <p>{errors.TaskName.message}</p>}
+    <button type="submit" className="btn btn-primary mx-3 px-4 ">Add Task</button>
    </form>
-   </div>
+ 
 
   )
 }
